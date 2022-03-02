@@ -23,6 +23,7 @@ class Category(MPTTModel):
     )
     published = models.BooleanField("отображать?", default=True)
     sort = models.PositiveIntegerField('порядок', default=0)
+    icon = models.CharField('Иконка', max_length=50, default='')
 
     def __str__(self):
         return self.name

@@ -66,7 +66,7 @@ class PhotoItemInline(admin.TabularInline):
 @admin.register(Post)
 class PostAdmin(ActionPublish):
     """Статичные страницы"""
-    list_display = ("title", "published",'slug', "id", 'name_category', 'sort',)
+    list_display = ("title", "published",'slug', "id",  'sort',)
     list_editable = ("published", 'sort',)
     list_filter = ("published",)
     search_fields = ("title",)
@@ -74,7 +74,7 @@ class PostAdmin(ActionPublish):
     form = PostAdminForm
     actions = ['unpublish', 'publish']
     list_per_page = 50 #разделение записи
-    filter_horizontal  = ('category',)
+
     inlines = [PhotoItemInline]
     # сверху админки показывает сохранить удалить
     save_on_top = True
