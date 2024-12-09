@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load  static %}
+{% block title %}{{post.name}}{% endblock %}
+{% block content %}
+<section class="about inner padding-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7 left-block">
+                    <h2>{{post.name}}</h2>
+                   {{post.text|safe}}
+                </div>
+                <div class="col-md-5 about-right">
+                     {% if post.image %}<img src="{{post.image.url}}" class="img-responsive" alt="{{post.title}}">{% endif %}
+              </div>
+            </div>
+        </div>
+    </section>
+<section class="comments-wrapper padding-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h2>Нақыл сөздері</h2>
+                </div>
+
+                <div class="col-sm-12">
+
+                    <ul class="row comments">
+                        {% for naqylsoz in tulga_tulgasoz %}
+                        <li class="col-sm-12 clearfix">
+                            <div class="com-img">
+                                {% if post.image_thumbnail %}
+                                <img src="{{post.image_thumbnail.url}}" class="img-circle" alt="{{post.name}}">
+                                {% endif %}
+                            </div>
+                            <div class="com-txt">
+
+                           {{naqylsoz.text|safe}}
+
+                            </div>
+                        </li>
+{% endfor %}
+                    </ul>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+    </section>
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load  static %}
+{% block title %}{{post.name}}{% endblock %}
+{% block content %}
+<section class="about inner padding-lg">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                     {% if post.image %}<img src="{{post.image.url}}" class="img-responsive" alt="{{post.title}}">
+
+                    {% endif %}
+                </div>
+                <div class="col-md-12">
+                    <h2>{{post.title}}</h2>
+                   {{post.text|safe}}
+                </div>
+
+
+              </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

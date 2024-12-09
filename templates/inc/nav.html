@@ -1,0 +1,35 @@
+{% load mptt_tags menu-tags%}
+{% show_menu as menu_items %}
+<!-- Start Navigation -->
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <button aria-controls="navbar" aria-expanded="false" data-target="#navbar" data-toggle="collapse" class="navbar-toggle collapsed" type="button"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                </div>
+                <div class="navbar-collapse collapse" id="navbar">
+                    <form class="navbar-form navbar-right">
+                        <input type="text" placeholder="Іздеу ..." class="form-control">
+                        <button class="search-btn"><span class="icon-search-icon"></span></button>
+                    </form>
+<ul class="nav navbar-nav">
+    {% recursetree menu_items %}
+        <li class="{% if node.is_leaf_node %}leaf{% else %}dropdown{% endif %}">
+            <a href="{{ node.slug }}">
+                {{ node.name }}
+                {% if not node.is_leaf_node %}
+                    <i class="fa fa-angle-down" aria-hidden="true"></i>
+                {% endif %}
+            </a>
+            {% if not node.is_leaf_node %}
+                <ul class="dropdown-menu">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+
+                </div>
+            </div>
+        </nav>
+        <!-- End Navigation -->

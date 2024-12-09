@@ -1,189 +1,146 @@
 {% extends 'base.html' %}
+{% load  static %}
 {% block content %}
-      <div class="container-fluid">
+ <section class="about">
+        <div class="container">
+            <ul class="row our-links">
+                <li class="col-sm-4 apply-online clearfix equal-hight">
+
+                    <div class="detail">
+                        <h3> Ғылыми ақпараттың сенімділігі</h3>
+                        <p>Портал тек ғылыми негізделген, сенімді дереккөздерден алынған мәліметтерді ұсынады. </p>
+                        <a href="#" class="more"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </div>
+                </li>
+                <li class="col-sm-4 prospects clearfix equal-hight">
+
+                    <div class="detail">
+                        <h3>Қарапайым әрі түсінікті тіл</h3>
+                        <p>Ғылыми терминология мен күрделі тақырыптар жеңілдетіліп, көпшілікке түсінікті етіп жеткізіледі.</p>
+                        <a href="#" class="more"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </div>
+                </li>
+                <li class="col-sm-4 certification clearfix equal-hight">
+
+                    <div class="detail">
+                        <h3>Әртүрлі тақырыптарды қамту</h3>
+                        <p>Портал ғылымның әртүрлі инновациялар, технологиялар және олардың күнделікті өмірдегі қолданылуы туралы ақпарат береді</p>
+                        <a href="#" class="more"><i class="fa fa-angle-right" aria-hidden="true"></i></a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <br>
+
+    </section>
 
 
-        <main class="tm-main">
 
-            <!-- Search form -->
-            <div class="row tm-row">
-                <div class="col-12">
-                    <form method="GET" class="form-inline tm-mb-40 tm-search-form">
-                        <input class="form-control tm-search-input" name="query" type="text" placeholder="Іздеу..." aria-label="Іздеу...">
-                        <button class="tm-search-button" type="submit">
-                            <i class="fas fa-search tm-search-icon" aria-hidden="true"></i>
-                        </button>
-                    </form>
+
+    <!-- ==============================================
+    ** News & Events **
+    =================================================== -->
+    <section class="news-events padding-lg">
+        <div class="container">
+            <h2><span>Соңғы</span>ақпараттар</h2>
+            <ul class="row cs-style-3">
+                {% for post in post_list %}
+                <li class="col-sm-4">
+                    <div class="inner">
+                        <figure>
+                            {% if post.image %}
+                            <img src="{{post.image.url}} " class="img-responsive">
+                            {% else %}
+                            <img src="{% static 'images/no_image.png' %} " class="img-responsive" >
+                            {% endif %}
+                            <figcaption>
+                                <div class="cnt-block"> <a href="{{post.get_absolute_url}}" class="plus-icon">+</a>
+                                    <h3>{{post.title}}</h3>
+                                    <div class="bottom-block clearfix">
+                                        <div class="date">
+
+                                        </div>
+                                        <div class="comment">
+{{post.description|truncatewords:10|safe}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </figcaption>
+                        </figure>
+                    </div>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+        </div>
+    </section>
+
+
+<section class="how-study padding-lg">
+    <div class="container">
+        <h2><span>Қазақ елінің</span> ұлы тұлғалары</h2>
+        <ul class="row">
+            {% for person in tulgalar %}
+            <li class="col-sm-4">
+                <div class="overly">
+                    <div class="cnt-block">
+                        <a href="{{ person.get_absolute_url }}"><h3>{{ person.name }}</h3></a>
+                        <p>{{ person.text|truncatewords:20|safe }}</p>
+                    </div>
+                    <a href="{{ person.get_absolute_url }}" class="more"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
                 </div>
-            </div>
-            <div class="row tm-row">
-
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-                        <span class="position-absolute tm-new-badge">Жаңа</span>
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Мақала</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-                <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Фото</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-                 <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Видео</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-                 <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Хабарландыру, Видео</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-                 <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Мақала</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-                 <article class="col-12 col-md-6 tm-post">
-                    <hr class="tm-hr-primary">
-                    <a href="post.html" class="effect-lily tm-post-link tm-pt-60">
-                        <div class="tm-post-link-inner">
-                            <img src="img/img-01.jpg" alt="Image" class="img-fluid">
-                        </div>
-
-                        <h2 class="tm-pt-30 tm-color-primary tm-post-title">Қазақ әндеріндегі кеңестік идеологиялық сарын</h2>
-                    </a>
-                    <p class="tm-pt-30">
-                        Адамзат құбылмалы тарихында музыка эстетикалық, әсемдік қызметімен қатар, халықты билеу, халыққа әсер ету мақсатында идеологилық құрал ретінде пайдаланылды..
-                    </p>
-                    <div class="d-flex justify-content-between tm-pt-45">
-                        <span class="tm-color-primary">Мақала</span>
-                        <span class="tm-color-primary">27.11.2020</span>
-                    </div>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>36 пікір</span>
-                        <span>Арман Әбдіғалиев</span>
-                    </div>
-                </article>
-
-
-
-            </div>
-
-
-                <div class="tm-paging-wrapper">
-
-                    <nav class="tm-paging-nav d-inline-block">
-
-                        <ul>
-                        <a href="#" class="mb-4 tm-btn tm-btn-primary tm-prev-next disabled tm-mr-20"><</a>
-                            <li class="tm-paging-item active">
-                                <a href="#" class="mb-4 tm-btn tm-paging-link">1</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-4 tm-btn tm-paging-link">2</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-4 tm-btn tm-paging-link">3</a>
-                            </li>
-                            <li class="tm-paging-item">
-                                <a href="#" class="mb-4 tm-btn tm-paging-link">4</a>
-                            </li>
-                            <a href="#" class="mb-4 tm-btn tm-btn-primary tm-prev-next">></a>
-                        </ul>
-
-                    </nav>
-                </div>
-
-            <footer class="row tm-row">
-                <hr class="col-12">
-
-            </footer>
-        </main>
+                <figure>
+                    {% if person.image %}
+                        <img src="{{ person.image.url }}" class="img-responsive" alt="{{ person.name }}">
+                    {% else %}
+                        <img src="{% static 'images/default-person.jpg' %}" class="img-responsive" alt="{{ person.name }}">
+                    {% endif %}
+                </figure>
+            </li>
+            {% endfor %}
+        </ul>
     </div>
+</section>
+
+
+
+<section class="testimonial testimonial2 padding-lg">
+        <div class="container">
+            <div class="wrapper">
+                <h2>Нақыл сөздер</h2>
+                <div class="bx-wrapper" style="max-width: 100%;">
+    <div class="bx-viewport" aria-live="polite" style="width: 100%; overflow: hidden; position: relative; height: 176.5px;">
+        <ul class="testimonial-slide" style="width: 3215%; position: relative; transition-duration: 1s; transform: translate3d(-1012px, 0px, 0px);">
+            {% for soz in naqylsoz %}
+                <li style="float: left; list-style: none; position: relative; width: 1012px;" class="bx-clone" aria-hidden="true">
+                    {{soz.text|safe}}
+                    <a href="{{soz.author.get_absolute_url}}"><span>{{soz.author.name}}</span></a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="bx-controls"></div>
+</div>
+<div id="bx-pager">
+    {% for soz in naqylsoz %}
+        <a data-slide-index="{{forloop.counter0}}" href="" class="{% if forloop.first %}active{% endif %}">
+            {% if soz.author.image_thumbnail %}<img src="{{soz.author.image_thumbnail.url}}" class="img-circle" alt="{{soz.author.name}}">{% else %}
+            <img src="{% static 'images/no_image_soz.png' %}" class="img-circle" alt="{{soz.author.name}}">
+            {% endif %}
+        </a>
+    {% endfor %}
+</div>
+
+            </div>
+        </div>
+    </section>
+
+
+
 {% endblock %}
+
+ {% block js %}
+
+
+{%endblock%}
