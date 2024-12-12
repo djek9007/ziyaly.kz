@@ -9,12 +9,11 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import environ
 import os
-from pathlib import Path
-from dotenv import load_dotenv
+env = environ.Env()
+environ.Env.read_env()
 
-# Загружаем переменные из .env
-load_dotenv()
 
 # Set the project base directory
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,11 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # False if not in os.environ because of casting above
 SECRET_KEY = os.getenv("SECRET_KEY", "your-default-secret-keysdfferdsgSR^TSRTt")
 
-DEBUG = bool(os.getenv('DEBUG', False))
+DEBUG = env.bool('DEBUG', default=False)
+ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost'])
 
-
-
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost').split(',')
 
 
 
