@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
         model = Post
         exclude = ['create_date']
         widgets = {
-            'image': ClientsideCroppingWidget(width=360, height=280, preview_width=260, preview_height=180),
+            'image': ClientsideCroppingWidget(width=660, height=280, preview_width=260, preview_height=180),
         }
 
 class TulgaForm(forms.ModelForm):
