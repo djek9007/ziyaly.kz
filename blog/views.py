@@ -7,9 +7,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from datetime import datetime
 # Create your views here.
 from django.views import View
-
-from .models import Category, Post, Banner, Tulga, Tulgasoz
-
+from django.db.models import Count
+from .models import Category, Post, Banner, Tulga, Tulgasoz, CategoryTulga
+from django.db.models import Q
 
 class HomeView(View):
     def get_queryset(self):
@@ -35,37 +35,85 @@ class HomeView(View):
         return render(request, 'blog/home.html', context)
 
 class PostListView(View):
-    """Вывод категории и вывод стати"""
-
-    # запрос к базе по полю публикации на true и по дате на сегодня которые должны выводится
     def get_queryset(self):
-        return Post.objects.filter(published=True)
+        return Post.objects.filter(published=True).order_by('-published_date')
 
-    def get(self, request, category_slug=None, tag_slug=None):
-        # category = Category.objects.get(slug=category_slug)
-        if category_slug is not None:
-            posts = self.get_queryset().filter(category__slug=category_slug, category__published=True)
-        else:
-            posts = self.get_queryset()
+    def get(self, request, category_slug=None):
+        # Получение всех категорий с количеством опубликованных постов
+        categories = Category.objects.filter(published=True).annotate(posts_count=Count('post'))
+
+        # Если передан slug категории, фильтруем по ней
+        category = None
+        posts = self.get_queryset()
+        if category_slug:
+            category = get_object_or_404(Category, slug=category_slug)
+            posts = posts.filter(category=category)
+
+        # Пагинация
         paginator = Paginator(posts, 4)
-        page = self.request.GET.get('page')
+        page = request.GET.get('page')
         try:
             posts = paginator.page(page)
         except PageNotAnInteger:
-            # If page is not an integer, deliver first page.
             posts = paginator.page(1)
         except EmptyPage:
-            # If page is out of range (e.g. 9999), deliver last page of results.
+            posts = paginator.page(paginator.num_pages)
+
+        # Получение последних постов для боковой панели
+        recent_posts = Post.objects.filter(published=True).order_by('-published_date')[:5]
+
+        context = {
+            'post_list': posts,
+            'category': category,
+            'category_list': categories,
+            'recent_posts': recent_posts,
+        }
+
+        return render(request, 'blog/blog_list.html', context)
+
+class TulgaListView(View):
+    """Вывод категории и вывод стати"""
+
+    def get_queryset(self, search_query=None):
+        queryset = Tulga.objects.filter(published=True)
+        if search_query:
+            queryset = queryset.filter(Q(name__icontains=search_query) | Q(text__icontains=search_query))
+        return queryset
+
+    def get(self, request, tulga_category_slug=None):
+        search_query = request.GET.get('Search')  # Fetch search term from query params
+        if tulga_category_slug:
+            try:
+                category = CategoryTulga.objects.get(slug=tulga_category_slug)
+                posts = self.get_queryset(search_query).filter(category=category, category__published=True)
+                title = category.name
+            except CategoryTulga.DoesNotExist:
+                raise Http404("Category does not exist.")
+        else:
+            category = None
+            title = 'Қазақ елінің Ұлы тұлғалары'
+            posts = self.get_queryset(search_query)
+
+        category_tulga = CategoryTulga.objects.filter(published=True).annotate(post_count=Count('tulga'))
+        paginator = Paginator(posts, 4)
+        page = self.request.GET.get('page')
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
             posts = paginator.page(paginator.num_pages)
 
         context = {
             'post_list': posts,
-            # 'category': category,
+            'category': category,
+            'title': title,
+            'category_tulga': category_tulga,
+            'search_query': search_query,  # Add search query to context
         }
 
-        return render(request, 'blog/home.html', context)
-
-
+        return render(request, 'blog/tulga_list.html', context)
 
 class PostDetailView(View):
     """Полная статья одного статьи"""

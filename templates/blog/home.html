@@ -94,7 +94,7 @@
                     {% if person.image %}
                         <img src="{{ person.image.url }}" class="img-responsive" alt="{{ person.name }}">
                     {% else %}
-                        <img src="{% static 'images/default-person.jpg' %}" class="img-responsive" alt="{{ person.name }}">
+                        <img src="{% static 'images/no_image_tulga.jpg' %}" class="img-responsive" alt="{{ person.name }}">
                     {% endif %}
                 </figure>
             </li>

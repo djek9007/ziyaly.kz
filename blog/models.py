@@ -129,6 +129,9 @@ class CategoryTulga(models.Model):
         verbose_name = 'Тұлға санаты'
         verbose_name_plural = 'Тұлғалар санаты'
 
+    def get_absolute_url(self):
+        return reverse('blog:category_tulga', kwargs={'tulga_category_slug': self.slug})
+
 class Tulga(models.Model):
     """Модель постов"""
     category = models.ForeignKey(

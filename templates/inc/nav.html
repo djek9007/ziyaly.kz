@@ -14,7 +14,7 @@
 <ul class="nav navbar-nav">
     {% recursetree menu_items %}
         <li class="{% if node.is_leaf_node %}leaf{% else %}dropdown{% endif %}">
-            <a href="{{ node.slug }}">
+            <a href="/{{ node.slug }}/">
                 {{ node.name }}
                 {% if not node.is_leaf_node %}
                     <i class="fa fa-angle-down" aria-hidden="true"></i>

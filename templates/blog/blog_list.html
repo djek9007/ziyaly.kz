@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<div class="container blog-wrapper padding-lg">
+    <div class="row">
+        <!-- Start Left Column -->
+        <div class="col-sm-8 blog-left">
+            <ul class="blog-listing">
+                {% if post_list %}
+                {% for post in post_list %}
+                <li>
+                    <h2><a href="{{ post.get_absolute_url }}">{{ post.title }}</a></h2>
+                    <ul class="post-detail">
+                        <li><span class="icon-date-icon ico"></span><span class="bold">{{ post.published_date|date:"d M" }}</span> {{ post.published_date|date:"Y" }}</li>
+                    </ul>
+                    <p>{{ post.description|truncatechars:200 }}</p>
+                    <a href="{{ post.get_absolute_url }}" class="read-more"><span class="icon-play-icon"></span>Толығырақ</a>
+                </li>
+                {% endfor %}
+
+            </ul>
+
+            <!-- Pagination -->
+             <ul class="pagination">
+    {% if post_list.has_previous %}
+        <li><a href="?page=1" aria-label="First">« </a></li>
+        <li><a href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+    {% endif %}
+
+    {% for num in post_list.paginator.page_range %}
+        {% if num == post_list.number %}
+            <li class="active"><a href="#">{{ num }}</a></li>  {# Current page #}
+        {% else %}
+            <li><a href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if post_list.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+        <li><a href="?page={{ posts.paginator.num_pages }}" aria-label="Last"> »</a></li>
+    {% endif %}
+</ul>
+             {% else %}
+                Көрсететін мақалалар жоқ. Басқа санатты қарап көріңіз
+                {% endif %}
+        </div>
+        <!-- End Left Column -->
+
+        <!-- Start Right Column -->
+        <div class="col-sm-4">
+            <div class="blog-right">
+
+                <!-- Categories -->
+                <div class="category">
+                    <h3>Санаттар</h3>
+                    <ul>
+                        {% for cat in category_list %}
+                        <li><a href="{{ cat.get_absolute_url }}">{{ cat.name }} <span>{{ cat.posts_count }}</span></a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                <!-- Recent Posts -->
+                <div class="recent-post">
+                    <h3>Соңғы материалдар</h3>
+                    <ul>
+                        {% for recent_post in recent_posts %}
+                        <li class="clearfix">
+                            <a href="{{ recent_post.get_absolute_url }}">
+                                {% if recent_post.image %}
+                                <div class="img-block"><img src="{{ recent_post.image.url }}" class="img-responsive" alt="{{ recent_post.title }}"></div>
+                                {% endif %}
+                                <div class="detail">
+                                    <h4>{{ recent_post.title }}</h4>
+                                    <p><span class="icon-date-icon ico"></span><span>{{ recent_post.published_date|date:"d M" }}</span> {{ recent_post.published_date|date:"Y" }}</p>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+        <!-- End Right Column -->
+    </div>
+</div>
+{% endblock %}

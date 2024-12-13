@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load  static %}
+{% block title %}{%if title %} {{title}} {%else %}{{category.name}}{%endif%}{% endblock %}
+{% block content %}
+
+
+<section class="how-study padding-lg">
+    <div class="container">
+        <h2><span>Қазақ елінің</span> ұлы тұлғалары</h2>
+        <div class="search-block clearfix">
+    <form method="get" action="{% url 'blog:category_tulga' %}">  {# Use the correct view URL name #}
+        <input name="Search" type="text" placeholder="Іздеу" value="{{ search_query|default:'' }}">
+        <button class="search" type="submit"><span class="icon-search-icon"></span></button>
+    </form>
+</div>
+
+<ul class="tags-list clearfix">
+
+    {% for ct in category_tulga %}
+        <li>
+            <a href="{{ct.get_absolute_url}}">{{ ct.name }} <span>({{ ct.post_count }})</span></a>
+        </li>
+    {% endfor %}
+
+
+                        </ul>
+        <ul class="row">
+            {% for person in post_list %}
+            <li class="col-sm-4" style="margin-top:20px">
+                <div class="overly">
+                    <div class="cnt-block">
+                        <a href="{{ person.get_absolute_url }}"><h3>{{ person.name }}</h3></a>
+                        <p>{{ person.text|truncatewords:20|safe }}</p>
+                    </div>
+                    <a href="{{ person.get_absolute_url }}" class="more"><i class="fa fa-caret-right" aria-hidden="true"></i></a>
+                </div>
+                <figure>
+                    {% if person.image %}
+                        <img src="{{ person.image.url }}" class="img-responsive" alt="{{ person.name }}">
+                    {% else %}
+                        <img src="{% static 'images/no_image_tulga.jpg' %}" class="img-responsive" alt="{{ person.name }}">
+                    {% endif %}
+                </figure>
+
+            </li>
+
+            {% endfor %}
+        </ul>
+        <br>
+        <hr>
+        <ul class="pagination">
+    {% if post_list.has_previous %}
+        <li><a href="?page=1" aria-label="First">« </a></li>
+        <li><a href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+    {% endif %}
+
+    {% for num in post_list.paginator.page_range %}
+        {% if num == post_list.number %}
+            <li class="active"><a href="#">{{ num }}</a></li>  {# Current page #}
+        {% else %}
+            <li><a href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+    {% endfor %}
+
+    {% if post_list.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+        <li><a href="?page={{ posts.paginator.num_pages }}" aria-label="Last"> »</a></li>
+    {% endif %}
+</ul>
+
+    </div>
+
+</section>
+
+{% endblock %}
