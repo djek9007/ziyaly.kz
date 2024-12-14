@@ -113,7 +113,7 @@ class TulgaAdmin(DcsicAdminMixin, ActionPublish):
 class CategoryAdmin(ActionPublish):
     """Статичные страницы"""
     list_display = ("name", "published",'slug', "id")
-    list_editable = ("published", )
+    list_editable = ("published","in_main" )
     list_filter = ("published", )
     search_fields = ("name",)
 
