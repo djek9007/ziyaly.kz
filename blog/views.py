@@ -140,7 +140,7 @@ class TulgasozListView(View):
             posts = self.get_queryset(search_query)
 
         authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
-        paginator = Paginator(posts, 4)
+        paginator = Paginator(posts, 9)
         page = self.request.GET.get('page')
 
         try:
