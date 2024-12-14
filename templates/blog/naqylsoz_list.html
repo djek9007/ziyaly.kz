@@ -42,22 +42,22 @@
         <div class="text-center">
             <ul class="pagination blue">
                 {% if post_list.has_previous %}
-                    <li><a href="?page=1" aria-label="First">« Первый</a></li>
-                    <li><a href="?page={{ post_list.previous_page_number }}" aria-label="Previous">« Назад</a></li>
-                {% endif %}
+        <li><a href="?page=1" aria-label="First">« </a></li>
+        <li><a href="?page={{ posts.previous_page_number }}" aria-label="Previous"><i class="fa fa-angle-left" aria-hidden="true"></i></a></li>
+    {% endif %}
 
-                {% for num in post_list.paginator.page_range %}
-                    {% if num == post_list.number %}
-                        <li class="active"><a href="#">{{ num }}</a></li>
-                    {% else %}
-                        <li><a href="?page={{ num }}">{{ num }}</a></li>
-                    {% endif %}
-                {% endfor %}
+    {% for num in post_list.paginator.page_range %}
+        {% if num == post_list.number %}
+            <li class="active"><a href="#">{{ num }}</a></li>  {# Current page #}
+        {% else %}
+            <li><a href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+    {% endfor %}
 
-                {% if post_list.has_next %}
-                    <li><a href="?page={{ post_list.next_page_number }}" aria-label="Next">Вперед »</a></li>
-                    <li><a href="?page={{ post_list.paginator.num_pages }}" aria-label="Last">Последний »</a></li>
-                {% endif %}
+    {% if post_list.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}" aria-label="Next"><i class="fa fa-angle-right" aria-hidden="true"></i></a></li>
+        <li><a href="?page={{ posts.paginator.num_pages }}" aria-label="Last"> »</a></li>
+    {% endif %}
             </ul>
         </div>
     </div>
