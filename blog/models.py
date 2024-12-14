@@ -204,7 +204,6 @@ class Tulgasoz(models.Model):
         return self.author.name
 
     def save(self, *args, **kwargs):
-        # Проверка на наличие слага у автора
         if not self.author.slug:
             raise ValidationError("Слаг автора не найден.")
 
@@ -216,12 +215,16 @@ class Tulgasoz(models.Model):
         text_slug = slugify(self.text[:30])  # Слагируем первые 30 символов текста
 
         # Объединяем оба слага
-        self.slug = f"{base_slug}-{text_slug}"
+        new_slug = f"{base_slug}-{text_slug}"
 
-        # Убедимся в уникальности слага
-        if Tulgasoz.objects.filter(slug=self.slug).exists():
-            raise ValidationError("Слаг должен быть уникальным. Этот слаг уже используется.")
+        # Убедимся в уникальности слага и добавим номер, если нужно
+        unique_slug = new_slug
+        count = 1
+        while Tulgasoz.objects.filter(slug=unique_slug).exists():
+            unique_slug = f"{new_slug}-{count}"
+            count += 1
 
+        self.slug = unique_slug
         super().save(*args, **kwargs)
 
     def __str__(self):
