@@ -116,7 +116,6 @@ class CategoryAdmin(ActionPublish):
     list_editable = ("published", )
     list_filter = ("published", )
     search_fields = ("name",)
-    prepopulated_fields = {"slug": ("name", )}
 
     actions = ['unpublish', 'publish']
     # сверху админки показывает сохранить удалить

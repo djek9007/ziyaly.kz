@@ -6,6 +6,8 @@ from django.utils.translation import gettext_lazy as _
 from dynamic_filenames import FilePattern
 from tinymce.models import HTMLField
 from django.core.files.storage import default_storage
+from django.utils.text import slugify
+from django.core.exceptions import ValidationError
 
 page_file_item = FilePattern(
     filename_pattern='{app_label:.25}/{model_name:.30}/{uuid:base32}{ext}'
@@ -200,6 +202,20 @@ class Tulgasoz(models.Model):
 
     def __str__(self):
         return self.author.name
+
+    def save(self, *args, **kwargs):
+        # Generate slug based on author slug and the first 30 characters of text
+        base_slug = slugify(self.author.slug)  # Using the author's slug
+        text_slug = slugify(self.text[:30])  # Slugify the first 30 characters of the text
+
+        # Combine both slugs
+        self.slug = f"{base_slug}-{text_slug}"
+
+        # Ensure uniqueness of the slug
+        if Tulgasoz.objects.filter(slug=self.slug).exists():
+            raise ValidationError("Slug must be unique. This slug is already in use.")
+
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Ұлы тұлғаның нақыл сөзі'
