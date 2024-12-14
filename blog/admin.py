@@ -113,7 +113,7 @@ class TulgaAdmin(DcsicAdminMixin, ActionPublish):
 class CategoryAdmin(ActionPublish):
     """Статичные страницы"""
     list_display = ("name", "published",'slug', "id")
-    list_editable = ("published","in_main" )
+    list_editable = ("published", )
     list_filter = ("published", )
     search_fields = ("name",)
 
@@ -126,10 +126,10 @@ class CategoryAdmin(ActionPublish):
 class TulgaSozAdmin(DcsicAdminMixin, ActionPublish):
     """Статичные страницы"""
     list_display = ("author", "text", "published",'slug', "id",  )
-    list_editable = ("published", )
+    list_editable = ("published", "in_main")
     list_filter = ("published", "author",)
     search_fields = ("author",)
-    prepopulated_fields = {"slug": ("author", "text")}
+
     form = TulgaForm
     actions = ['unpublish', 'publish']
     list_per_page = 50 #разделение записи
