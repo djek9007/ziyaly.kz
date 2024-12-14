@@ -125,13 +125,16 @@ class CategoryAdmin(ActionPublish):
 @admin.register(Tulgasoz)
 class TulgaSozAdmin(DcsicAdminMixin, ActionPublish):
     """Статичные страницы"""
-    list_display = ("author", "text", "published",'slug', "id", "in_main" )
+    list_display = ("author", "text", "published", 'slug', "id", "in_main")
     list_editable = ("published", "in_main")
     list_filter = ("published", "author",)
-    search_fields = ("author",)
+    search_fields = ("author__name",)  # Предполагается, что author имеет поле name
 
     form = TulgaForm
     actions = ['unpublish', 'publish']
-    list_per_page = 50 #разделение записи
-    # сверху админки показывает сохранить удалить
+    list_per_page = 50  # Разделение записи
     save_on_top = True
+
+    # Используйте это, чтобы предварительно заполнить слаг на основе других полей
+    prepopulated_fields = {"slug": ("text",)}  # Это поле будет заполняться на основе текстового поля
+
