@@ -2514,9 +2514,7 @@ ul.our-strength.opt2 li .title {
 	min-height: 290px;
 	background: url(../images/inner-banner-bg.jpg) no-repeat center top / cover;
 }
-.inner-banner .content {
-	max-width: 392px;
-}
+
 .inner-banner h1 {
 	display: block;
 	padding-bottom: 18px;

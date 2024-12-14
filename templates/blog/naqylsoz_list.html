@@ -1,13 +1,40 @@
 {% extends 'base.html' %}
 {% load static %}
-
+  {% block css %} <link href="{% static 'assets/iconmoon/css/iconmoon.css' %}" rel="stylesheet">{% endblock%}
 {% block title %}{{ category.name }}{% endblock %}
 
 {% block content %}
+<div id="loading" style="display: none;">
+        <div class="element">
+            <div class="sk-folding-cube">
+                <div class="sk-cube1 sk-cube"></div>
+                <div class="sk-cube2 sk-cube"></div>
+                <div class="sk-cube4 sk-cube"></div>
+                <div class="sk-cube3 sk-cube"></div>
+            </div>
+        </div>
+    </div>
+<div class="inner-banner blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="content">
+                        <h1>{{ title }}</h1>
+                        <p>Қазақ халқының даналығы ғасырлар бойы ұлы тұлғаларының нақыл сөздері арқылы ұрпақтан-ұрпаққа жетіп келеді.
+                            <br>
+                            Бұл сөздер тек қана терең мағыналы ой емес, сонымен қатар өмірлік бағдар, рухани тәрбие көзі болып табылады.</p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
 <section class="testimonial-outer padding-lg">
     <div class="container">
         <div class="row">
-        <h2 class="">{{ title }}</h2> <!-- Заголовок списка -->
+        <h2 class=""></h2> <!-- Заголовок списка -->
 
         <div class="search-block clearfix">
             <form method="get" action="{% url 'blog:naqylsoz_author' %}">
@@ -65,3 +92,6 @@
 
 
 {% endblock %}
+{%block js%}
+<script src="{% static 'assets/masonry/js/masonry.min.js' %}"></script>
+{% endblock%}

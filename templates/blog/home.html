@@ -1,6 +1,34 @@
 {% extends 'base.html' %}
 {% load  static %}
 {% block content %}
+ <!-- ==============================================
+    ** Banner Carousel **
+    =================================================== -->
+    <div class="banner-outer">
+        <div class="banner-slider">
+            {% for banner in banners%}
+            <div class="slide3" style="background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url({{banner.image.url}}) no-repeat center top / cover;">
+
+                <div class="container">
+                    <div class="content animated fadeInLeft">
+                        {% if banner.title_show %}
+                        <h1 class="animated fadeInLeft">{{banner.title}}</h1>
+                        {% endif %}
+                        {% if banner.description_show and banner.description %}
+                        <p class="animated fadeInLeft">{{banner.description}}</p>
+                        {% endif %}
+                        {% if banner.slug %}
+                        <a href="{{banner.slug}}" class="btn animated fadeInLeft">{{banner.title_slug}} <span class="icon-more-icon"></span></a>
+                        {%endif%}
+                    </div>
+                </div>
+            </div>
+
+            {% endfor%}
+        </div>
+    </div>
+
+
  <section class="about">
         <div class="container">
             <ul class="row our-links">

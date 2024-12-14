@@ -136,7 +136,7 @@ class TulgasozListView(View):
                 raise Http404("Author does not exist.")
         else:
 
-            title = 'Ұлы тұлғалардың нақыл сөздері'
+            title = 'Нақыл сөздер'
             posts = self.get_queryset(search_query)
 
         authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
