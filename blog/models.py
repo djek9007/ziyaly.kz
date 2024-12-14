@@ -204,27 +204,21 @@ class Tulgasoz(models.Model):
         return self.author.name
 
     def save(self, *args, **kwargs):
-        base_slug = slugify(self.author.slug[:10])
-        text_slug = slugify(self.text[:30])
-        new_slug = f"{base_slug}-{text_slug}"
+        # Generate slug based on author slug and the first 30 characters of text
+        base_slug = slugify(self.author.slug)  # Using the author's slug
+        text_slug = slugify(self.text[:30])  # Slugify the first 30 characters of the text
 
-        # Позволяем текущему слагу оставаться в силе, если он совпадает
-        if self.pk:  # Мы редактируем существующий экземпляр
-            existing_instance = Tulgasoz.objects.get(pk=self.pk)
-            if existing_instance.slug == new_slug:
-                self.slug = new_slug
-                super().save(*args, **kwargs)
-                return
+        # Combine both slugs
+        self.slug = f"{base_slug}-{text_slug}"
 
-        # Иначе, обеспечиваем уникальность
-        count = 1
-        unique_slug = new_slug
-        while Tulgasoz.objects.filter(slug=unique_slug).exists():
-            unique_slug = f"{new_slug}-{count}"
-            count += 1
+        # Ensure uniqueness of the slug
+        if Tulgasoz.objects.filter(slug=self.slug).exists():
+            raise ValidationError("Slug must be unique. This slug is already in use.")
 
-        self.slug = unique_slug
         super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.author.name
 
 
     class Meta:
