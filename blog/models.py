@@ -204,7 +204,7 @@ class Tulgasoz(models.Model):
         return self.author.name
 
     def save(self, *args, **kwargs):
-        base_slug = slugify(self.author.slug)
+        base_slug = slugify(self.author.slug[:10])
         text_slug = slugify(self.text[:30])
         new_slug = f"{base_slug}-{text_slug}"
 
