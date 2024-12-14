@@ -22,7 +22,7 @@ class HomeView(View):
         naqylsoz = Tulgasoz.objects.filter(published=True, in_main=True).select_related('author')[:20]
 
 
-        posts = self.get_queryset()[:6]
+        posts = self.get_queryset()[:3]
 
 
         context = {
