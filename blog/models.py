@@ -204,7 +204,7 @@ class Tulgasoz(models.Model):
         return self.author.name
 
     def save(self, *args, **kwargs):
-        # Проверка наличия слага у автора
+        # Проверка на наличие слага у автора
         if not self.author.slug:
             raise ValidationError("Слаг автора не найден.")
 
