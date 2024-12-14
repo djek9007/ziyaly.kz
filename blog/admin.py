@@ -112,19 +112,19 @@ class TulgaAdmin(DcsicAdminMixin, ActionPublish):
 @admin.register(CategoryTulga)
 class CategoryAdmin(ActionPublish):
     """Статичные страницы"""
-    list_display = ("author", "text", "published", 'slug', "id")
-    list_editable = ("published",)
-    list_filter = ("published", "author",)
-    search_fields = ("author__name",)  # Assuming you might want to search by author's name
-    form = TulgaForm
-    actions = ['unpublish', 'publish']
-    list_per_page = 50  # Разделение записи
-    save_on_top = True
+    list_display = ("name", "published",'slug', "id")
+    list_editable = ("published", )
+    list_filter = ("published", )
+    search_fields = ("name",)
 
+    actions = ['unpublish', 'publish']
+    # сверху админки показывает сохранить удалить
+    save_on_top = True
+    # readonly_fields = ("slug",)
 
 @admin.register(Tulgasoz)
 class TulgaSozAdmin(DcsicAdminMixin, ActionPublish):
-    """Нақыл сөздер страницы"""
+    """Статичные страницы"""
     list_display = ("author", "text", "published",'slug', "id",  )
     list_editable = ("published", )
     list_filter = ("published", "author",)
