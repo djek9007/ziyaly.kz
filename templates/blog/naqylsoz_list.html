@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ category.name }}{% endblock %}
+
+{% block content %}
+<section class="testimonial-outer padding-lg">
+    <div class="container">
+        <div class="row">
+        <h2 class="">{{ title }}</h2> <!-- Заголовок списка -->
+
+        <div class="search-block clearfix">
+            <form method="get" action="{% url 'blog:naqylsoz_author' %}">
+                <input name="Search" type="text" placeholder="Поиск" value="{{ search_query|default:'' }}">
+                <button class="search" type="submit"><span class="icon-search-icon"></span></button>
+            </form>
+        </div>
+            </div>
+        <div class="row">
+        <ul class="row testimonials">
+
+            {% for post in post_list %}
+
+                <li class="col-xs-12 col-sm-4 grid-item">
+                    <div class="quotblock">
+                        {% if post.author.image_thumbnail %}
+                        <img src="{{ post.author.image_thumbnail.url }}" class="img-responsive img-circle" alt="{{ post.author.name }}">
+                        {% else %}
+                        <img src="{% static 'images/no_image_soz.png' %}" class="img-responsive img-circle" alt="Фото жоқ">
+                        {% endif %}
+                        <span class="icon-quote-left-icon"></span>
+                        <h3>{{ post.author.name }}</h3>
+                        <p>{{ post.text|safe }}</p> <!-- Отобразите текст с ограничением по словам -->
+                    </div>
+                </li>
+            {% empty %}
+                <li class="col-xs-12"><p>Нет доступных высказываний.</p></li>
+            {% endfor %}
+        </ul>
+</div>
+        <!-- Pagination Section -->
+        <div class="text-center">
+            <ul class="pagination blue">
+                {% if post_list.has_previous %}
+                    <li><a href="?page=1" aria-label="First">« Первый</a></li>
+                    <li><a href="?page={{ post_list.previous_page_number }}" aria-label="Previous">« Назад</a></li>
+                {% endif %}
+
+                {% for num in post_list.paginator.page_range %}
+                    {% if num == post_list.number %}
+                        <li class="active"><a href="#">{{ num }}</a></li>
+                    {% else %}
+                        <li><a href="?page={{ num }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if post_list.has_next %}
+                    <li><a href="?page={{ post_list.next_page_number }}" aria-label="Next">Вперед »</a></li>
+                    <li><a href="?page={{ post_list.paginator.num_pages }}" aria-label="Last">Последний »</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

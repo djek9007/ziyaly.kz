@@ -126,7 +126,7 @@
     {% for soz in naqylsoz %}
         <a data-slide-index="{{forloop.counter0}}" href="" class="{% if forloop.first %}active{% endif %}">
             {% if soz.author.image_thumbnail %}<img src="{{soz.author.image_thumbnail.url}}" class="img-circle" alt="{{soz.author.name}}">{% else %}
-            <img src="{% static 'images/no_image_soz.png' %}" class="img-circle" alt="{{soz.author.name}}">
+            <img src="{% static 'images/no_image_soz.png' %}" class="img-circle" alt="Фото жоқ">
             {% endif %}
         </a>
     {% endfor %}
@@ -134,6 +134,10 @@
 
             </div>
         </div>
+   <div class="row">
+       <br>
+        <h6><a href="{% url 'blog:naqylsoz_author'%}">Басқа нақыл сөздермен танысу</a></h6>
+   </div>
     </section>
 
 

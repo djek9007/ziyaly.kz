@@ -115,6 +115,51 @@ class TulgaListView(View):
 
         return render(request, 'blog/tulga_list.html', context)
 
+
+class TulgasozListView(View):
+    """Вывод категории и вывод стати"""
+
+    def get_queryset(self, search_query=None):
+        queryset = Tulgasoz.objects.filter(published=True)
+        if search_query:
+            queryset = queryset.filter(Q(author__name__icontains=search_query) | Q(text__icontains=search_query))
+        return queryset
+
+    def get(self, request, author=None):
+        search_query = request.GET.get('Search')  # Fetch search term from query params
+        if author:
+            try:
+                author = Tulgasoz.objects.get(slug=author)
+                posts = self.get_queryset(search_query).filter(author=author, author__published=True)
+                title = author.name
+            except Tulga.DoesNotExist:
+                raise Http404("Author does not exist.")
+        else:
+
+            title = 'Ұлы тұлғалардың нақыл сөздері'
+            posts = self.get_queryset(search_query)
+
+        authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
+        paginator = Paginator(posts, 4)
+        page = self.request.GET.get('page')
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        context = {
+            'post_list': posts,
+
+            'title': title,
+            'authors': authors,
+            'search_query': search_query,  # Add search query to context
+        }
+
+        return render(request, 'blog/naqylsoz_list.html', context)
+
 class PostDetailView(View):
     """Полная статья одного статьи"""
 
