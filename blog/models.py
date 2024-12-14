@@ -210,18 +210,18 @@ class Tulgasoz(models.Model):
         if not self.text:
             raise ValidationError("Поле 'text' не может быть пустым.")
 
-        # Генерация слага на основе слага автора и первых 30 символов текста
-        base_slug = slugify(self.author.slug)  # Используя слаг автора
+        # Генерация базового слага
+        base_slug = slugify(self.author.slug)  # Слаг автора
         text_slug = slugify(self.text[:30])  # Слагируем первые 30 символов текста
 
-        # Объединяем оба слага
-        new_slug = f"{base_slug}-{text_slug}"
+        # Обращение к 30 символам для формирования нового слага
+        new_slug = f"{base_slug}-{text_slug}"[:30]
 
-        # Убедимся в уникальности слага и добавим номер, если нужно
+        # Убедитесь, что слаг уникален
         unique_slug = new_slug
         count = 1
         while Tulgasoz.objects.filter(slug=unique_slug).exists():
-            unique_slug = f"{new_slug}-{count}"
+            unique_slug = f"{new_slug}-{count}"[:30]  # Срезаем, чтобы держать длину на уровне 30
             count += 1
 
         self.slug = unique_slug
