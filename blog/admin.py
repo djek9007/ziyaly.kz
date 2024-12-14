@@ -136,5 +136,5 @@ class TulgaSozAdmin(DcsicAdminMixin, ActionPublish):
     save_on_top = True
 
     # Используйте это, чтобы предварительно заполнить слаг на основе других полей
-    prepopulated_fields = {"slug": ("text",)}  # Это поле будет заполняться на основе текстового поля
+    prepopulated_fields = {"slug": ("author",)}  # Это поле будет заполняться на основе текстового поля
 
