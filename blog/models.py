@@ -204,16 +204,23 @@ class Tulgasoz(models.Model):
         return self.author.name
 
     def save(self, *args, **kwargs):
-        # Generate slug based on author slug and the first 30 characters of text
-        base_slug = slugify(self.author.slug)  # Using the author's slug
-        text_slug = slugify(self.text[:30])  # Slugify the first 30 characters of the text
+        # Проверка наличия слага у автора
+        if not self.author.slug:
+            raise ValidationError("Слаг автора не найден.")
 
-        # Combine both slugs
+        if not self.text:
+            raise ValidationError("Поле 'text' не может быть пустым.")
+
+        # Генерация слага на основе слага автора и первых 30 символов текста
+        base_slug = slugify(self.author.slug)  # Используя слаг автора
+        text_slug = slugify(self.text[:30])  # Слагируем первые 30 символов текста
+
+        # Объединяем оба слага
         self.slug = f"{base_slug}-{text_slug}"
 
-        # Ensure uniqueness of the slug
+        # Убедимся в уникальности слага
         if Tulgasoz.objects.filter(slug=self.slug).exists():
-            raise ValidationError("Slug must be unique. This slug is already in use.")
+            raise ValidationError("Слаг должен быть уникальным. Этот слаг уже используется.")
 
         super().save(*args, **kwargs)
 
