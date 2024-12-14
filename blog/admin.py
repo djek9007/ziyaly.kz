@@ -125,7 +125,7 @@ class CategoryAdmin(ActionPublish):
 @admin.register(Tulgasoz)
 class TulgaSozAdmin(DcsicAdminMixin, ActionPublish):
     """Статичные страницы"""
-    list_display = ("author", "text", "published",'slug', "id",  )
+    list_display = ("author", "text", "published",'slug', "id", "in_main" )
     list_editable = ("published", "in_main")
     list_filter = ("published", "author",)
     search_fields = ("author",)
