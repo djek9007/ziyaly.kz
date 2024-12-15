@@ -120,7 +120,7 @@ class TulgasozListView(View):
     """Вывод категории и вывод стати"""
 
     def get_queryset(self, search_query=None):
-        queryset = Tulgasoz.objects.filter(published=True)
+        queryset = Tulgasoz.objects.filter(published=True).order_by['-id']
         if search_query:
             queryset = queryset.filter(Q(author__name__icontains=search_query) | Q(text__icontains=search_query))
         return queryset
@@ -140,7 +140,7 @@ class TulgasozListView(View):
             posts = self.get_queryset(search_query)
 
         authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
-        paginator = Paginator(posts, 9)
+        paginator = Paginator(posts, 30)
         page = self.request.GET.get('page')
 
         try:
