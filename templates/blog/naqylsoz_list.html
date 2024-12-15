@@ -40,7 +40,7 @@
 
     {% for ct in authors %}
         <li>
-            <a href="{{ct.get_absolute_url}}">{{ ct.author.name }} <span>({{ ct.post_count }})</span></a>
+            <a href="{{ct.get_absolute_url}}">{{ ct.name }} <span>({{ ct.post_count }})</span></a>
         </li>
     {% endfor %}
 
