@@ -193,7 +193,7 @@ class PhotoItemTulga(models.Model):
 
 class Tulgasoz(models.Model):
     """Модель категории"""
-    author = models.ForeignKey(Tulga, verbose_name=_("Ұлы тұлға"), on_delete=models.CASCADE, related_name='tulga_tulgasoz')
+    author = models.ForeignKey(Tulga, verbose_name=_("Ұлы тұлға"), on_delete=models.CASCADE, related_name='tulgasoz')
     text = HTMLField(verbose_name=_("Нақыл сөз"))
     slug = models.SlugField("url", max_length=100, unique=True)
     published = models.BooleanField(_("Көрсету?"), default=True)

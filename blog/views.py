@@ -141,7 +141,8 @@ class TulgasozListView(View):
             posts = self.get_queryset(search_query)
 
         # --- Corrected authors queryset ---
-        authors = Tulga.objects.filter(published=True, author__published=True).annotate(post_count=Count('author'))
+
+        authors = Tulga.objects.filter(published=True, tulgasoz__published=True).annotate(post_count=Count('author'))
 
         paginator = Paginator(posts, 30)
         page = request.GET.get('page')
