@@ -126,16 +126,17 @@ class TulgasozListView(View):
         return queryset
 
     def get(self, request, author=None):
-        search_query = request.GET.get('Search')  # Fetch search term from query params
-        if author:
+        search_query = request.GET.get('Search')
+        author_slug = author  # Get author slug from URL parameter
+
+        if author_slug:
             try:
-                author = Tulgasoz.objects.get(slug=author)
+                author = Tulga.objects.get(slug=author_slug)  # Fetch the author object using slug
                 posts = self.get_queryset(search_query).filter(author=author, author__published=True)
                 title = author.name
             except Tulga.DoesNotExist:
                 raise Http404("Author does not exist.")
         else:
-
             title = 'Нақыл сөздер'
             posts = self.get_queryset(search_query)
 

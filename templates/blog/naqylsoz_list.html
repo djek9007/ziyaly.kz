@@ -4,16 +4,7 @@
 {% block title %}{{ category.name }}{% endblock %}
 
 {% block content %}
-<div id="loading" style="display: none;">
-        <div class="element">
-            <div class="sk-folding-cube">
-                <div class="sk-cube1 sk-cube"></div>
-                <div class="sk-cube2 sk-cube"></div>
-                <div class="sk-cube4 sk-cube"></div>
-                <div class="sk-cube3 sk-cube"></div>
-            </div>
-        </div>
-    </div>
+
 <div class="inner-banner blog">
         <div class="container">
             <div class="row">
@@ -27,6 +18,13 @@
                     </div>
                 </div>
             </div>
+            <ul class="tags-list clearfix">
+    {% for ct in authors %}
+        <li>
+            <a href="{% url 'blog:naqylsoz_author' ct.author.slug %}">{{ ct.author.name }} <span>({{ ct.post_count }})</span></a>
+        </li>
+    {% endfor %}
+</ul>
         </div>
 </div>
 
