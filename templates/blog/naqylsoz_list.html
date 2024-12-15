@@ -36,16 +36,14 @@
             </form>
 
         </div>
-             <ul class="tags-list clearfix">
-
+<ul class="tags-list clearfix">
     {% for ct in authors %}
-        <li>
-            <a href="{{ct.get_absolute_url}}">{{ ct.name }} <span>({{ ct.post_count }})</span></a>
+        <li class="{% if selected_author and ct.slug == selected_author.slug %}active{% endif %}">
+            <a href="{% url 'blog:naqylsoz_author' ct.slug %}">{{ ct.name }} <span>({{ ct.post_count }})</span></a>
         </li>
     {% endfor %}
+</ul>
 
-
-                        </ul>
             <br>
             </div>
 

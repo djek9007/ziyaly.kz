@@ -117,37 +117,41 @@ class TulgaListView(View):
 
 
 class TulgasozListView(View):
-    """Вывод категории и вывод стати"""
+    """Вывод категории и вывод статей"""
 
-    def get_queryset(self, search_query=None):
+    def get_queryset(self, search_query=None, author=None):
         queryset = Tulgasoz.objects.filter(published=True).order_by('-id')
         if search_query:
             queryset = queryset.filter(Q(author__name__icontains=search_query) | Q(text__icontains=search_query))
+        if author:
+            queryset = queryset.filter(author=author)
         return queryset
 
     def get(self, request, author=None):
-        search_query = request.GET.get('Search')  # Fetch search term from query params
+        search_query = request.GET.get('Search')  # Поисковый запрос
+        title = 'Нақыл сөздер'
+        selected_author = None
+
+        # Если автор указан, фильтруем записи по автору
         if author:
             try:
-                author = Tulgasoz.objects.get(slug=author)
-                posts = self.get_queryset(search_query).filter(author=author, author__published=True)
-                title = author.name
+                selected_author = Tulga.objects.get(slug=author)
+                posts = self.get_queryset(search_query=search_query, author=selected_author)
+                title = f"Нақыл сөздер: {selected_author.name}"
             except Tulga.DoesNotExist:
-                raise Http404("Author does not exist.")
+                raise Http404("Автор не найден.")
         else:
-            title = 'Нақыл сөздер'
-            posts = self.get_queryset(search_query)
+            posts = self.get_queryset(search_query=search_query)
 
-
-        # Получить уникальных авторов и подсчитать количество публикаций
+        # Список авторов с записями в Tulgasoz
         authors = (
-            Tulga.objects.filter(published=True)  # Фильтруем только опубликованных авторов
-            .annotate(post_count=Count('tulga_tulgasoz', filter=Q(tulga_tulgasoz__published=True)))
-        # Считаем только опубликованные публикации
+            Tulga.objects.filter(published=True, tulga_tulgasoz__published=True)  # Только опубликованные авторы и записи
+            .annotate(post_count=Count('tulga_tulgasoz', filter=Q(tulga_tulgasoz__published=True)))  # Количество записей
+            .filter(post_count__gt=0)  # Только авторы с записями
         )
 
         paginator = Paginator(posts, 30)
-        page = self.request.GET.get('page')
+        page = request.GET.get('page')
 
         try:
             posts = paginator.page(page)
@@ -159,11 +163,13 @@ class TulgasozListView(View):
         context = {
             'post_list': posts,
             'title': title,
-            'authors': authors,   # Здесь уже уникальные авторы с подсчётом публикаций
-            'search_query': search_query,  # Add search query to context
+            'authors': authors,
+            'search_query': search_query,
+            'selected_author': selected_author,  # Для указания текущего автора
         }
 
         return render(request, 'blog/naqylsoz_list.html', context)
+
 
 
 class PostDetailView(View):
