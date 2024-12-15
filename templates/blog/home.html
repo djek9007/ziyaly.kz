@@ -108,6 +108,7 @@
 <section class="how-study padding-lg">
     <div class="container">
         <h2><span>Қазақ елінің</span> ұлы тұлғалары</h2>
+
         <ul class="row">
             {% for person in tulgalar %}
             <li class="col-sm-4">
@@ -129,6 +130,7 @@
             {% endfor %}
         </ul>
     </div>
+    <h6><a href="{% url 'blog:category_tulga'%}">Басқа Ұлы тұлғалармен танысу</a></h6>
 </section>
 
 
