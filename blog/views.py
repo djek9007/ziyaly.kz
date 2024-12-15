@@ -95,7 +95,7 @@ class TulgaListView(View):
             posts = self.get_queryset(search_query)
 
         category_tulga = CategoryTulga.objects.filter(published=True).annotate(post_count=Count('tulga'))
-        paginator = Paginator(posts, 4)
+        paginator = Paginator(posts, 6)
         page = self.request.GET.get('page')
 
         try:
