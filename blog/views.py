@@ -135,11 +135,16 @@ class TulgasozListView(View):
             except Tulga.DoesNotExist:
                 raise Http404("Author does not exist.")
         else:
-
             title = 'Нақыл сөздер'
             posts = self.get_queryset(search_query)
 
-        authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
+        # Получить уникальных авторов с подсчётом количества их постов
+        authors = (
+            Author.objects.filter(tulgasoz__published=True)  # Используем связь `author` напрямую
+            .annotate(post_count=Count('tulgasoz'))          # Подсчёт количества публикаций
+            .distinct()                                      # Исключаем дублирование
+        )
+
         paginator = Paginator(posts, 30)
         page = self.request.GET.get('page')
 
@@ -152,13 +157,13 @@ class TulgasozListView(View):
 
         context = {
             'post_list': posts,
-
             'title': title,
-            'authors': authors,
+            'authors': authors,   # Здесь уже уникальные авторы с подсчётом публикаций
             'search_query': search_query,  # Add search query to context
         }
 
         return render(request, 'blog/naqylsoz_list.html', context)
+
 
 class PostDetailView(View):
     """Полная статья одного статьи"""
