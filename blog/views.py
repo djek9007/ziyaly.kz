@@ -138,11 +138,12 @@ class TulgasozListView(View):
             title = 'Нақыл сөздер'
             posts = self.get_queryset(search_query)
 
-        # Получить уникальных авторов с подсчётом количества их постов
+
+        # Получить уникальных авторов и подсчитать количество публикаций
         authors = (
-            Tulgasoz.objects.filter(author__published=True)  # Используем связь `author` напрямую
-            .annotate(post_count=Count('author'))          # Подсчёт количества публикаций
-            .distinct()                                      # Исключаем дублирование
+            Tulga.objects.filter(published=True)  # Фильтруем только опубликованных авторов
+            .annotate(post_count=Count('tulga_tulgasoz', filter=Q(tulga_tulgasoz__published=True)))
+        # Считаем только опубликованные публикации
         )
 
         paginator = Paginator(posts, 30)
