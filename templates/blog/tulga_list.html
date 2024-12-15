@@ -2,11 +2,26 @@
 {% load  static %}
 {% block title %}{%if title %} {{title}} {%else %}{{category.name}}{%endif%}{% endblock %}
 {% block content %}
+<div class="inner-banner blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="content">
+                        <h1>{{ title }}</h1>
+                        <p>Қазақ халқының тарихында ұлт болашағы үшін қызмет еткен, даналығы мен ерлігі арқылы ел есінде мәңгі қалған ұлы тұлғалар аз емес.
+                            <br>
+                            Олар өздерінің еңбегімен, өнерімен, ғылымымен және ерлік істерімен ұлт руханиятының негізін қалады. Ұлы тұлғалардың өмірі мен мұрасы – халқымыздың баға жетпес рухани қазынасы.</p>
 
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+</div>
 
 <section class="how-study padding-lg">
     <div class="container">
-        <h2><span>Қазақ елінің</span> ұлы тұлғалары</h2>
         <div class="search-block clearfix">
     <form method="get" action="{% url 'blog:category_tulga' %}">  {# Use the correct view URL name #}
         <input name="Search" type="text" placeholder="Іздеу" value="{{ search_query|default:'' }}">
