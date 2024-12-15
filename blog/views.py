@@ -140,7 +140,7 @@ class TulgasozListView(View):
 
         # Получить уникальных авторов с подсчётом количества их постов
         authors = (
-            Author.objects.filter(tulgasoz__published=True)  # Используем связь `author` напрямую
+            Tulga.objects.filter(tulgasoz__published=True)  # Используем связь `author` напрямую
             .annotate(post_count=Count('tulgasoz'))          # Подсчёт количества публикаций
             .distinct()                                      # Исключаем дублирование
         )
