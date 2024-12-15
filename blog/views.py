@@ -127,11 +127,11 @@ class TulgasozListView(View):
 
     def get(self, request, author=None):
         search_query = request.GET.get('Search')
-        author_slug = author  # Get author slug from URL parameter
+        author_slug = author
 
         if author_slug:
             try:
-                author = Tulga.objects.get(slug=author_slug)  # Fetch the author object using slug
+                author = Tulga.objects.get(slug=author_slug)
                 posts = self.get_queryset(search_query).filter(author=author, author__published=True)
                 title = author.name
             except Tulga.DoesNotExist:
@@ -140,9 +140,11 @@ class TulgasozListView(View):
             title = 'Нақыл сөздер'
             posts = self.get_queryset(search_query)
 
-        authors = Tulgasoz.objects.filter(published=True).annotate(post_count=Count('author'))
+        # --- Corrected authors queryset ---
+        authors = Tulga.objects.filter(published=True, tulgasoz__published=True).annotate(post_count=Count('tulgasoz'))
+
         paginator = Paginator(posts, 30)
-        page = self.request.GET.get('page')
+        page = request.GET.get('page')
 
         try:
             posts = paginator.page(page)
@@ -153,10 +155,9 @@ class TulgasozListView(View):
 
         context = {
             'post_list': posts,
-
             'title': title,
             'authors': authors,
-            'search_query': search_query,  # Add search query to context
+            'search_query': search_query,
         }
 
         return render(request, 'blog/naqylsoz_list.html', context)
