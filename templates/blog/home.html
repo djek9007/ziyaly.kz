@@ -129,8 +129,12 @@
             </li>
             {% endfor %}
         </ul>
+        <div class="row">
         <br>
-        <h6><a href="{% url 'blog:category_tulga'%}">Басқа Ұлы тұлғалармен танысу</a></h6>
+        <div class="button-outer">
+            <a href="{% url 'blog:category_tulga'%}"><button class="btn">Басқа Ұлы тұлғалармен танысу<span class="icon-more-icon"></span></button></a>
+                        </div>
+            </div>
     </div>
 
 </section>
@@ -168,7 +172,10 @@
         </div>
    <div class="row">
        <br>
-        <h6><a href="{% url 'blog:naqylsoz_author'%}">Басқа нақыл сөздермен танысу</a></h6>
+        <div class="button-outer">
+            <a href="{% url 'blog:naqylsoz_author'%}"><button class="btn">Басқа нақыл сөздермен танысу<span class="icon-more-icon"></span></button></a>
+                        </div>
+
    </div>
     </section>
 

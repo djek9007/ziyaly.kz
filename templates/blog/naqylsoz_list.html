@@ -34,9 +34,23 @@
                 <input name="Search" type="text" placeholder="Поиск" value="{{ search_query|default:'' }}">
                 <button class="search" type="submit"><span class="icon-search-icon"></span></button>
             </form>
+
         </div>
+             <ul class="tags-list clearfix">
+
+    {% for ct in authors %}
+        <li>
+            <a href="{{ct.get_absolute_url}}">{{ ct.author.name }} <span>({{ ct.post_count }})</span></a>
+        </li>
+    {% endfor %}
+
+
+                        </ul>
+            <br>
             </div>
+
         <div class="row">
+
         <ul class="row testimonials">
 
             {% for post in post_list %}
