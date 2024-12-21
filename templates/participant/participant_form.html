@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags i18n%}
+{% block title %}{% trans 'Конференцияға қатысуға өтінім қалдыру' %}{% endblock %}
+{% block content %}
+{% if is_application_open %}
+<div class="inner-banner blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="content">
+
+<div class="col-sm-12 head-block">
+                    <h2>{{ conference.title }}</h2>
+                    <p>{% trans 'Конференцияға қатысуға өтінім қалдыру' %}</p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+
+
+<script>
+    const endDate = new Date("{{ end_date }}");
+
+    function updateCountdown() {
+        const now = new Date().getTime();
+        const distance = endDate - now;
+
+        if (distance <= 0) {
+            document.getElementById("countdown").innerHTML = "{% trans 'Қабылдау аяқталды' %}";
+            clearInterval(timerInterval);
+            return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById("countdown").innerHTML =
+            `${days} {% trans 'күн' %} ${hours} {% trans 'сағат' %} ${minutes} {% trans 'минут' %} ${seconds} {% trans 'секунд' %}`;
+    }
+
+    const timerInterval = setInterval(updateCountdown, 1000);
+    updateCountdown();
+</script>
+<section class="browse-teacher grey-bg padding-lg">
+        <div class="container">
+           <div class="row">
+               <div class="countdown-timer">
+    <div class="col-sm-12 imp-note"> <span>i</span>
+                   <h5>{% trans 'Қабылдаудың аяқталуына қалған уақыт:' %}</h5>
+    <div id="countdown" style="font-size: 24px; font-weight: bold; color:red;"></div>
+                </div>
+
+
+</div>
+
+               <form method="post" action="{% url 'participant:order' slug=conference.slug %}">
+    {% csrf_token %}
+    {% crispy form %}
+    {% if form.errors %}
+            <div class="alert alert-danger">
+                {% for field, errors in form.errors.items %}
+                    {% for error in errors %}
+                        <p>{{ field|capfirst }}: {{ error }}</p>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        {% endif %}
+</form>
+
+{% elif start_date_formatted %}
+<!-- Сообщение о том, что прием заявок еще не начался -->
+ <div class="inner-banner blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="content">
+
+<div class="col-sm-12 head-block">
+                    <h2>{{ conference.title }}</h2>
+                    <p>{% trans 'Конференцияға қатысуға өтінім қалдыру' %}</p>
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+                 <section class="browse-teacher grey-bg padding-lg">
+        <div class="container">
+           <div class="row">
+<div class="card mt-5">
+    <h5 class="card-header alert-info text-center padding-lg">{% trans 'Конференцияға қатысуға өтінімді қабылдау басталған жоқ.' %}</h5>
+    <div class="card-body">
+        <p class="card-text text-center lead">
+            {% blocktranslate %}Өтінімдерді қабылдау {{ start_date_formatted }} басталады{% endblocktranslate %}
+        </p>
+    </div>
+</div>
+           </div>
+        </div>
+                 </section>
+
+{% elif end_date_formatted %}
+<!-- Сообщение о том, что прием заявок завершен -->
+               <div class="inner-banner blog">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="content">
+
+<div class="col-sm-12 head-block">
+                    <h2>{{ conference.title }}</h2>
+                    <p>{% trans 'Конференцияға қатысуға өтінім қалдыру' %}</p>
+
+                </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</div>
+               <section class="browse-teacher grey-bg padding-lg">
+        <div class="container">
+           <div class="row">
+                <div class="card mt-5 padding-lg">
+    <h4 class="card-header alert-danger text-center padding-lg">{% trans 'Конференцияға қатысуға өтінімді қабылдау аяқталды.' %}</h4>
+
+    <div class="card-body">
+        <p class="card-text text-center lead">
+            {% blocktranslate %}Өтінімдерді қабылдау {{ end_date_formatted }} аяқталды{% endblocktranslate %}
+        </p>
+    </div>
+</div>
+           </div>
+        </div>
+               </section>
+               <br><br>
+{% endif %}
+           </div>
+        </div>
+    </section>
+
+
+
+{% endblock %}

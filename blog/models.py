@@ -159,7 +159,7 @@ class Tulga(models.Model):
         blank=True,
         null=True
     )
-    image = models.ImageField(_("Тұлғаның фотосы"), upload_to=page_file_item, help_text=_('Фото көлемі 400x400'), blank=True, null=True)
+    image = models.ImageField(_("Тұлғаның фотосы"), upload_to=page_file_item, help_text=_('Фото көлемі 700x400'), blank=True, null=True)
     image_thumbnail = models.ImageField(_("Тұлғаның қысқаша фотосы"), upload_to=page_file_item, help_text=_('Фото көлемі 72x72'),
                               blank=True, null=True)
 

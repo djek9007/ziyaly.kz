@@ -100,7 +100,7 @@ def validate_file_size(value):
         raise ValidationError(_('Файл 20 МБ-тан аспауы керек.'))
 
 def validate_file_extension(value):
-    allowed_extensions = ['.pdf', '.doc', '.docx', '.odt', '.txt', '.zip', '.rar']
+    allowed_extensions = ['pdf', 'doc', 'docx', 'odt', 'txt', 'zip', 'rar']  # Без точки
     file_extension = value.name.lower().split('.')[-1]
     if file_extension not in allowed_extensions:
         raise ValidationError(_('Тек PDF, DOC, DOCX, ODT, TXT, ZIP, RAR форматтарға рұқсат етіледі.'))

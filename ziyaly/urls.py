@@ -21,7 +21,7 @@ from django.urls import path, include
 urlpatterns = [
     path('translate/', include('rosetta.urls')),
     path('admin/', admin.site.urls),
-    path('participant/', include('participant.urls', namespace='participant')),
+    path('conference/', include('participant.urls', namespace='participant')),
 
 
     path('tinymce/', include('tinymce.urls')),

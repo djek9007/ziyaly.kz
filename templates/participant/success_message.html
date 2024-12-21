@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+{% block title %}{{ conference.title }} | {% trans 'Конференцияға қатысу туралы өтініміңіз қабылданды' %}{% endblock %}
+{% block content %}
+
+
+<section class="about inner padding-lg">
+        <div class="container">
+            <div class="row">
+                <img src="{% static 'images/succes.jpg' %}" class="img-responsive" alt="" width="30%">
+                <div class="col-md-7 left-block">
+ <h3>{% trans 'Құрметті' %} {{ participant.full_name }}!</h3>
+                    <br>
+                  {% blocktranslate %}
+        Біздің конференцияға қатысуға қызығушылық танытқаныңыз үшін алғыс білдіреміз. <br>
+
+Сіздің өтініміңізді алдағы уақытта қарастырып, нәтижесі туралы сізге қосымша ақпарат жолданатын болады.{% endblocktranslate %}
+                    {% trans 'Ізгі тілектермен, Конференцияны Ұйымдастырушылар' %}
+            </div>
+                <div class="col-md-5 about-right">
+                    <div class="button-group1 clearfix">
+                         <a href="#" class="download-cert"> <span class="ico-block"><img src="{% static 'images/certification-sm-ico.png' %}    " alt="certification"></span> <span class="txt-block"> {% trans 'Конференцияға қатысу туралы өтініміңіз қабылданды' %} </span> </a> </div>
+
+                </div>
+        </div>
+        </div>
+    </section>
+{% endblock %}
